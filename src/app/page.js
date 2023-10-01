@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     auth.onAuthStateChanged((user) => {
       if(user){
-        window.location.href = '/adicionar'
+        window.location.href = '/home'
       }
     })
     

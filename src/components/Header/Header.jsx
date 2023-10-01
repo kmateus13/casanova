@@ -2,16 +2,16 @@
 
 import { Avatar, Box, IconButton, ListItemIcon, Menu, MenuItem, Skeleton, Tooltip } from "@mui/material";
 import { FiLogOut } from "react-icons/fi"
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { auth } from "@/firebase/authentication"
+import { usePathname } from 'next/navigation'
 
-export default function Header() {
+export default function Header({pagina}) {
 
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [foto, setFoto] = useState()
     const [name, setName] = useState()
-
     const userLogado = auth.currentUser
 
     useEffect(() => {
@@ -44,24 +44,21 @@ export default function Header() {
     }
 
 
-
-
-
     return (
-        <header className=" h-16 px-28 bg-slate-600 flex items-center justify-between">
+        <header className=" h-16 md:px-28 px-6 bg-slate-600 flex items-center justify-between">
             <nav>
-                <ul className="flex gap-6 text-white font-semibold">
-                    <li><a href="/"></a>Adicionar Categoria</li>
-                    <li>Adicionar Produto</li>
+                <ul className="flex text-white font-semibold">
+                    <li><a href={pagina === "Home"? "/home" : "/adicionar"}>{pagina}</a></li>
+
                 </ul>
             </nav>
             <div className="flex items-center">
-                    {userLogado ? (
-                        <label className="text-white font-semibold">{name}</label>
-                    ) : (
-                        <Skeleton variant="rounded" width={210} height={20} />
-                    )
-                    }
+                {userLogado ? (
+                    <label className="text-white font-semibold">{name}</label>
+                ) : (
+                    <Skeleton variant="rounded" width={210} height={20} />
+                )
+                }
                 <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                     <Tooltip title="Sair da conta">
                         <IconButton

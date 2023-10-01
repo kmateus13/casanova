@@ -25,7 +25,7 @@ const style = {
 export default function BasicModal({ produto, onClose, eventEstado, categ }) {
     const [open, setOpen] = useState(false);
     const [infoProdutos, setInfoProdutos] = useState([])
-    const [estadoToggle, setEstadoToggle] = useState(true)
+    const [estadoToggle, setEstadoToggle] = useState(false)
 
 
 
@@ -50,7 +50,9 @@ export default function BasicModal({ produto, onClose, eventEstado, categ }) {
                         id: doc.id,
                         dados: doc.data()
                     }
+                    
                     produtoArray.push(dadosProdutos)
+                    setEstadoToggle(dadosProdutos.dados.pago)
                 }
             });
             setInfoProdutos(produtoArray)
@@ -93,22 +95,25 @@ export default function BasicModal({ produto, onClose, eventEstado, categ }) {
                             </span>
                             <span className='flex gap-4 items-center'>
                                 <label htmlFor={`toggle-${e.id}`} className='font-bold text-base'>Situação:</label>
-                                <Switch id={`toggle-${e.id}`} defaultChecked={e.dados.pago} onChange={(i) => setEstadoToggle(i.target.checked)} value={estadoToggle} />
+                                <div>
+                                    <label htmlFor={`toggle-${e.id}`} className='text-xs'>Não Adquirido</label>
+                                    <Switch id={`toggle-${e.id}`} defaultChecked={e.dados.pago} onChange={(i) => setEstadoToggle(i.target.checked)} value={estadoToggle} />
+                                    <label htmlFor={`toggle-${e.id}`} className='text-xs'>Adquirido</label>
+                                </div>
                             </span>
 
-                            {estadoToggle === e.dados.pago ? (
-                                <ModalToggle dadosProduto={e} />
+                            {estadoToggle === true  ? (
+                                <ModalToggle dadosProduto={e} categoriaAcessada={categ} />
                             ) : (
                                 ""
                             )}
 
                         </div>
                     ))}
-                    <div>
+                    <div className='flex gap-6 mt-3'>
                         <Button onClick={onClose} variant="contained" className='bg-cyan-600'>Fechar</Button>
-                        <Button variant="outlined">Salvar</Button>
-                    </div>
 
+                    </div>
                 </Box>
             </Modal>
         </div>
