@@ -44,7 +44,7 @@ export default function Tabelas() {
 
 
     return (
-        <main className=" min-h-[89vh]   flex items-center justify-center bg-red-400">
+        <main className=" h-full   flex items-center justify-center bg-red-400">
             <div className="container h-auto py-6 flex justify-center flex-wrap gap-8">
                 {dados.length > 0 ? (
                     dados.map((categoria) => (
