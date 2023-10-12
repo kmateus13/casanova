@@ -9,7 +9,7 @@ export default function AdicionarCategoria() {
 
     const [dados, setDados] = useState([])
     const [nomeCategoria, setNomeCategoria] = useState('')
-
+    const [corCategoria, setCorCategoria] = useState('')
 
 
     const listaCategorias = async () => {
@@ -31,9 +31,11 @@ export default function AdicionarCategoria() {
 
     const enviarDadosCategoria = async () => {
 
-        await setDoc(doc(db, "dados", nomeCategoria), {});
+        await setDoc(doc(db, "dados", nomeCategoria), {cor: `${corCategoria}`});
+
         listaCategorias()
         setNomeCategoria('')
+        setCorCategoria('')
     }
 
 
@@ -48,6 +50,9 @@ export default function AdicionarCategoria() {
                 <div className="flex items-center gap-4">
                     <BiSitemap size={30} />
                     <TextField id="outlined-basic" label="Nova categoria" variant="outlined" value={nomeCategoria} onChange={(e) => setNomeCategoria(e.target.value)} />
+                </div>
+                <div>
+                    <input type="color" value={corCategoria} onChange={(e) => setCorCategoria(e.target.value)} />
                 </div>
                 <div>
                     <Button variant="contained" className="bg-blue-700" onClick={() => enviarDadosCategoria()}>Salvar</Button>

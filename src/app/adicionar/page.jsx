@@ -18,10 +18,8 @@ export default function Adicionar() {
         setItem(event.target.value);
     };
 
-    console.log(item)
-
     return (
-        <main className=" flex flex-col h-screen">
+        <main className=" flex flex-col h-auto lg:h-screen">
             <Header pagina={"Home"}/>
             <div className=" h-full  relative py-14 flex flex-col items-center bg-slate-50 ">
                 <div className="container h-full flex flex-col">

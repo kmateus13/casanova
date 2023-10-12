@@ -11,6 +11,8 @@ export default function Tabelas() {
     const [produto, setProduto] = useState('');
     const [categoria, setCategoria] = useState('');
     const [estadoModal, setEstadoModal] = useState(false)
+    const [totalGasto, setTotalGasto] = useState(0);
+
 
     useEffect(() => {
         const novo = async () => {
@@ -19,7 +21,11 @@ export default function Tabelas() {
 
 
             querySnapshot.forEach((doc) => {
-                dadosArray.push(doc.id)
+                let arrayCategorias = {
+                    nomeCategoria: doc.id,
+                    corCategoria: doc.data()
+                }
+                dadosArray.push(arrayCategorias)
             });
 
             setDados(dadosArray)
@@ -27,7 +33,7 @@ export default function Tabelas() {
 
         novo()
     }, [])
-    
+
 
     const childToParent = (childdata) => {
         setProduto(childdata)
@@ -37,25 +43,35 @@ export default function Tabelas() {
         setCategoria(categ)
     }
 
-
     const estado = (event) => {
         setEstadoModal(event)
     }
 
+    const valorCadaCategoria = (novoValor, valorAnterior) => {
+        setTotalGasto((prevTotal) => prevTotal - valorAnterior + novoValor);
+    }
+
+   
+
 
     return (
-        <main className=" h-full   flex items-center justify-center bg-red-400">
+        <main className=" h-full  relative flex items-center justify-center" style={{ "backgroundImage": `url(/textura-de-papel-quadrado.jpg)`, "backgroundSize": "cover" }}>
+            <div className="absolute w-1/5 h-12 bg-white flex items-center justify-center bottom-0 right-0 mb-28 gap-1">
+                <label>Total Gasto:</label>
+                <span>{totalGasto}</span>
+            </div>
             <div className="container h-auto py-6 flex justify-center flex-wrap gap-8">
                 {dados.length > 0 ? (
                     dados.map((categoria) => (
-                        <Tabela key={categoria} categoria={categoria} childToParent={childToParent} childToParent2={childToParent2} estado={estado}/>
-                    ) )
-                ): (
+                        <Tabela  
+                        key={categoria.nomeCategoria} categoria={categoria.nomeCategoria} cor={categoria.corCategoria.cor} childToParent={childToParent} childToParent2={childToParent2} estado={estado} valorCadaCategoria={valorCadaCategoria} />
+                    ))
+                ) : (
                     <p>nenhum dados encontrado...</p>
                 )}
             </div>
             {estadoModal && (
-                <BasicModal  produto={produto} categ={categoria} onClose={() => setEstadoModal(false)} eventEstado={estadoModal}  />
+                <BasicModal produto={produto} categ={categoria} onClose={() => setEstadoModal(false)} eventEstado={estadoModal} />
             )}
 
         </main>
